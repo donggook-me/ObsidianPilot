@@ -1,91 +1,127 @@
 # ObsidianPilot
 
-Claude Code CLI를 활용하여 Obsidian Vault를 스마트하게 관리하는 macOS 네이티브 앱
+> Claude Code CLI를 활용하여 Obsidian Vault를 스마트하게 관리하는 macOS 네이티브 앱
 
-## Features
+![Main Screen](screenshots/01_main_capture.png)
 
-- **Capture (캡처)**: 메모, 아이디어, 학습 내용을 입력하면 Claude가 자동으로 카테고리를 분류하여 vault에 저장
-- **Organize (정리)**: vault 파일을 카테고리별로 자동 분류 및 정리, 후속 지시 가능
-- **Verify (검증)**: 노트 내용의 정확성, 논리적 일관성, 누락 정보를 AI가 검토
-- **Ideas (아이디어)**: vault 내 노트 간 연결점 발견, 학습 갭 분석, 크로스 카테고리 인사이트
-- **History (기록)**: 모든 AI 작업 세션의 이력 관리
-- **실시간 스트리밍**: Claude의 응답을 실시간으로 미리보기
-- **메뉴바 앱**: 메뉴바에서 빠르게 접근 가능
-- **Claude 사용량 모니터링**: 세션 비용, 토큰 사용량, 요금제 정보 표시
+## What is ObsidianPilot?
 
-## Prerequisites (사전 준비)
+ObsidianPilot은 **Claude AI**의 힘을 빌려 Obsidian vault를 더 똑똑하게 관리해주는 macOS 앱입니다.
 
-1. **macOS 14.0 (Sonoma)** 이상
-2. **Xcode 16.0** 이상
-3. **Obsidian** - vault 폴더가 설정되어 있어야 함
-4. **Claude Code CLI** - Anthropic의 Claude CLI가 설치되어 있어야 함
-   - 설치: `npm install -g @anthropic-ai/claude-code` or https://docs.anthropic.com/en/docs/claude-code
-   - `claude` 명령어가 터미널에서 실행 가능해야 함
-   - Claude Pro/Max 구독 필요
+메모를 입력하면 자동으로 분류해서 vault에 저장하고, 기존 노트를 정리하거나, 내용을 검증하고, 노트 간 숨겨진 연결점까지 찾아줍니다.
 
-## Installation (설치)
+### 핵심 기능
 
-### 방법 1: Xcode로 빌드
+| 기능 | 설명 |
+|------|------|
+| **캡처** | 메모를 입력하면 Claude가 자동 분류하여 vault에 저장 |
+| **정리** | vault 파일을 카테고리별로 자동 분류 및 정리 |
+| **검증** | 노트 내용의 정확성, 논리적 일관성을 AI가 검토 |
+| **아이디어** | 노트 간 연결점 발견, 학습 갭 분석, 크로스 카테고리 인사이트 |
+| **기록** | 모든 AI 작업 세션의 이력 관리 |
+
+그 외: 실시간 스트리밍 미리보기, 메뉴바 빠른 접근, Claude 사용량 모니터링
+
+---
+
+## Quick Start
+
+### 1. 사전 준비
+
+| 항목 | 요구사항 |
+|------|----------|
+| macOS | 14.0 (Sonoma) 이상 |
+| Xcode | 16.0 이상 (소스 빌드 시) |
+| Obsidian | vault 폴더가 설정되어 있어야 함 |
+| Claude Code CLI | `claude` 명령어가 터미널에서 실행 가능해야 함 |
+
+**Claude Code CLI 설치:**
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+> Claude Pro 또는 Max 구독이 필요합니다. [설치 가이드](https://docs.anthropic.com/en/docs/claude-code)
+
+### 2. 설치
+
+#### DMG로 바로 설치 (빌드 없이)
+
+[Releases](https://github.com/donggook-me/ObsidianPilot/releases) 페이지에서 `ObsidianPilot.dmg`를 다운로드하세요.
+
+1. DMG 파일을 열고 앱을 **Applications** 폴더로 드래그
+2. 첫 실행 시 GateKeeper가 차단하면 터미널에서:
+   ```bash
+   xattr -cr /Applications/ObsidianPilot.app
+   ```
+3. 앱 실행!
+
+#### 소스에서 빌드
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/donggook-me/ObsidianPilot.git
 cd ObsidianPilot
 open ObsidianPilot.xcodeproj
 # Xcode에서 Run (⌘R)
 ```
 
-### 방법 2: xcodebuild 사용
-
+또는 커맨드라인으로:
 ```bash
-git clone <repository-url>
-cd ObsidianPilot
 xcodebuild -project ObsidianPilot.xcodeproj -scheme ObsidianPilot -configuration Release build
 ```
 
-빌드된 앱은 `~/Library/Developer/Xcode/DerivedData/ObsidianPilot-*/Build/Products/Release/ObsidianPilot.app`에 위치합니다.
+### 3. 초기 설정
 
-### 방법 3: XcodeGen 사용
+앱을 처음 실행하면 3단계 온보딩이 진행됩니다:
 
-```bash
-brew install xcodegen
-cd ObsidianPilot
-xcodegen generate
-open ObsidianPilot.xcodeproj
-```
+![Onboarding](screenshots/02_onboarding.png)
 
-## Setup (초기 설정)
+1. **Vault 선택** - Obsidian vault 폴더 경로를 지정 (`.obsidian` 폴더가 있는 디렉토리)
+2. **Claude CLI 설정** - Claude CLI 경로 확인 (대부분 자동 감지됨)
+3. **연결 테스트** - Claude가 정상 동작하는지 확인
 
-앱을 처음 실행하면 온보딩 화면이 나타납니다:
+> 설정은 나중에 **Settings** (`⌘,`)에서 언제든 변경 가능합니다.
 
-1. **Vault 선택**: Obsidian vault 폴더 경로를 지정합니다. `.obsidian` 폴더가 있는 디렉토리를 선택하세요.
-2. **Claude CLI 설정**: Claude CLI 실행 파일 경로를 확인합니다. 자동 감지되지 않으면 수동으로 지정하세요.
-   - 일반적인 경로: `~/.local/bin/claude`, `/usr/local/bin/claude`
-3. **연결 테스트**: Claude CLI가 정상 동작하는지 테스트합니다.
+---
 
-설정은 나중에 Settings (⌘,)에서 변경할 수 있습니다.
-
-## Usage (사용법)
+## 사용법
 
 ### 캡처 (메인 기능)
 
-1. 메인 화면의 텍스트 입력 영역에 메모할 내용을 입력
-2. `저장` 버튼 클릭 (또는 ⌘+Return)
-3. Claude가 내용을 분석하여 적절한 카테고리로 자동 분류 후 vault에 저장
+1. 메인 화면에서 메모할 내용을 입력
+2. **저장** 버튼 클릭 (또는 `⌘+Return`)
+3. Claude가 내용을 분석 → 적절한 카테고리로 분류 → vault에 저장
 
-### 도구 패널
+### 도구 기능
 
-메인 화면 하단의 빠른 도구 버튼 또는 우측 사이드바 토글로 접근:
+메인 화면 하단의 4개 도구 버튼을 클릭하면 각 기능의 전체 화면으로 전환됩니다:
 
-- **정리**: 카테고리를 선택하고 실행하면 vault 파일을 자동 정리
-- **검증**: 파일을 선택하여 내용의 정확성을 검증
-- **아이디어**: 대화형으로 vault의 지식 연결점을 탐색
-- **기록**: 이전 작업 이력 확인
+- **정리** - 카테고리를 선택하고 실행하면 vault 파일을 자동 정리. 후속 지시도 가능
+- **검증** - 최근 파일 목록에서 선택 → AI가 내용의 정확성을 검토하여 피드백 제공
+- **아이디어** - 대화형으로 vault의 지식 연결점을 탐색. 프리셋으로 빠른 시작 가능
+- **기록** - 모든 AI 작업 이력을 확인하고 결과를 다시 볼 수 있음
+
+뒤로 가려면 상단의 **< 캡처** 버튼을 클릭하세요.
 
 ### 메뉴바
 
-상단 메뉴바의 🧠 아이콘을 클릭하면 빠른 접근 팝오버가 표시됩니다.
+상단 메뉴바의 🧠 아이콘을 클릭하면 빠른 접근 팝오버가 표시됩니다. 앱 윈도우를 열지 않고도 빠르게 작업을 실행할 수 있습니다.
 
-## Architecture (기술 구조)
+---
+
+## 동작 원리
+
+ObsidianPilot은 [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code)를 `--output-format stream-json` 옵션으로 실행하여 AI 기능을 제공합니다.
+
+```
+사용자 입력 → vault 구조 분석 → Claude에 프롬프트 전송 → 실시간 스트리밍 → 결과 렌더링
+```
+
+- Claude가 vault 내에서 파일을 직접 생성/이동/수정합니다
+- 모든 응답은 마크다운 + 수식(KaTeX)으로 렌더링됩니다
+- 세션 비용, 토큰 사용량이 하단 Claude 상태 패널에 표시됩니다
+
+---
+
+## 프로젝트 구조
 
 ```
 ObsidianPilot/
@@ -98,62 +134,20 @@ ObsidianPilot/
 │   ├── VaultService.swift     # Obsidian Vault 파일 관리
 │   ├── SessionStore.swift     # 세션 이력 저장소
 │   └── SettingsService.swift  # 설정 관리 (UserDefaults)
-├── ViewModels/
-│   ├── OrganizeViewModel.swift
-│   ├── VerifyViewModel.swift
-│   ├── IdeaViewModel.swift
-│   ├── CaptureViewModel.swift
-│   └── HistoryViewModel.swift
-└── Views/
-    ├── MainWindow.swift       # 메인 화면 (Capture 중심)
-    ├── OnboardingView.swift   # 초기 설정 마법사
-    ├── OrganizeView.swift     # 파일 정리 도구
-    ├── VerifyView.swift       # 내용 검증 도구
-    ├── IdeaView.swift         # 아이디어 탐색 도구
-    ├── HistoryView.swift      # 세션 기록
-    ├── CaptureView.swift      # 캡처 뷰 (독립)
-    ├── SettingsView.swift     # 설정 화면
-    ├── MenuBarView.swift      # 메뉴바 팝오버
-    ├── ClaudeStatusPanel.swift # Claude 상태/사용량 패널
-    ├── ProgressPanel.swift    # 실시간 진행 상황
-    ├── MathMarkdownView.swift # 마크다운+수식 렌더러
-    └── FeatureHistorySection.swift # 기능별 이력 컴포넌트
+├── ViewModels/                # 각 기능별 비즈니스 로직
+└── Views/                     # SwiftUI 화면 컴포넌트
 ```
 
-## How It Works (동작 원리)
+## 문제 해결
 
-ObsidianPilot은 Claude Code CLI(`claude` 명령어)를 `--output-format stream-json` 옵션으로 실행하여 AI 기능을 제공합니다.
+| 문제 | 해결 방법 |
+|------|-----------|
+| Claude CLI를 찾을 수 없음 | `which claude`로 경로 확인 후 Settings에서 수동 지정 |
+| "독립 모드"로 표시됨 | Claude CLI 경로 확인, `claude --version` 테스트, 구독 상태 확인 |
+| 빌드 오류 | Xcode 16.0+ 확인, `File > Packages > Resolve Package Versions` |
+| GateKeeper 차단 | `xattr -cr /Applications/ObsidianPilot.app` 실행 |
 
-1. 사용자 입력을 받으면 vault 구조와 함께 Claude에 프롬프트 전송
-2. Claude의 응답을 실시간 스트리밍으로 파싱하여 진행 상황 표시
-3. 결과를 마크다운으로 렌더링하고 세션 이력에 저장
-4. 파일 생성/이동/수정은 Claude가 vault 내에서 직접 수행
-
-## Troubleshooting (문제 해결)
-
-### Claude CLI를 찾을 수 없는 경우
-
-```bash
-# Claude CLI 위치 확인
-which claude
-# 일반적인 설치 경로
-ls -la ~/.local/bin/claude
-ls -la /usr/local/bin/claude
-```
-
-### "독립 모드"로 표시되는 경우
-
-- Claude CLI 경로가 올바른지 확인 (Settings ⌘,)
-- Claude CLI가 정상 실행되는지 터미널에서 테스트: `claude --version`
-- Claude API 키 또는 구독이 유효한지 확인
-
-### 빌드 오류
-
-- Xcode 16.0 이상인지 확인
-- macOS 14.0 이상 타겟인지 확인
-- SPM 패키지 resolve: `File > Packages > Resolve Package Versions`
-
-## Dependencies (의존성)
+## 의존성
 
 - [MarkdownUI](https://github.com/gonzalezreal/swift-markdown-ui) - 마크다운 렌더링
 
