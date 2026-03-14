@@ -1,0 +1,486 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		11ED217D975F8646C80D9077 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D30F29B193771DD43F99AF /* MenuBarView.swift */; };
+		17E752835C8C7A6491BCCE70 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200118F8DC1B2A02EAD46348 /* CaptureView.swift */; };
+		1C815EB6F6FE49C6D53E6D14 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A59BC8DC8C38F485EED76C3 /* MainWindow.swift */; };
+		2077C3156C2ED35376DF463F /* VerifyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C43A5A0ABEEE1B0BC7427 /* VerifyViewModel.swift */; };
+		2ABA85DF5AF2A66612ADE562 /* OrganizeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8F826059AC90A4C2835359 /* OrganizeViewModel.swift */; };
+		4E7D1CC6CB7142EFE4428EE7 /* IdeaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3F6DEB26EC2C204255E33A /* IdeaViewModel.swift */; };
+		5A1226919D7282E8E5B79E12 /* CaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62464ADC99D9E74149D88225 /* CaptureViewModel.swift */; };
+		5EB19A0EB128062D9A1CD70D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7616A3B3ED7E5172FBC5DF2C /* Assets.xcassets */; };
+		6CAFF036E903C6CE3C9DF2CA /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8294329C76CECFA8F789B8EC /* SettingsService.swift */; };
+		70A74025590B426276A3549C /* VaultService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AB4BF8360E1985E7806E70 /* VaultService.swift */; };
+		9215507A839D5DB935107038 /* OrganizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CBEE54BE72AE5395523B47 /* OrganizeView.swift */; };
+		B068C0CEAACAD8C1B21E4B26 /* ObsidianPilotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688F3F11C7E50918A8A838FD /* ObsidianPilotApp.swift */; };
+		C4B908DDFE30022829E6E391 /* VerifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19669D4894B0F9FE171A1B6A /* VerifyView.swift */; };
+		E1D3C955A900F4A7383B8992 /* IdeaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE53F15111DE79B6A985A39 /* IdeaView.swift */; };
+		E2E86B1EC7F55362DEE4097E /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591223122814659084BD638D /* ClaudeService.swift */; };
+		EACD7715A41185B9C0B288B1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7895D3C8B940BCD764029B /* SettingsView.swift */; };
+		F6F0297BC9AEB352AC0B70E8 /* VaultFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E2E36FFD01A96450DB0A67 /* VaultFile.swift */; };
+		AA000001000000000000001A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000100000000000000F1 /* Session.swift */; };
+		AA000002000000000000001A /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000200000000000000F1 /* SessionStore.swift */; };
+		AA000003000000000000001A /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000300000000000000F1 /* HistoryViewModel.swift */; };
+		AA000004000000000000001A /* FeatureHistorySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000400000000000000F1 /* FeatureHistorySection.swift */; };
+		AA000005000000000000001A /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000500000000000000F1 /* HistoryView.swift */; };
+		AA000006000000000000001A /* MathMarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000600000000000000F1 /* MathMarkdownView.swift */; };
+		AA000007000000000000001A /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000700000000000000F1 /* OnboardingView.swift */; };
+		AA000008000000000000001A /* ProgressPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000800000000000000F1 /* ProgressPanel.swift */; };
+		AA000009000000000000001A /* ClaudeStatusPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000900000000000000F2 /* ClaudeStatusPanel.swift */; };
+		AA00000A000000000000001A /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = AA00000900000000000000F1 /* MarkdownUI */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0F8CDF3EB135C9BA1A0B5071 /* ObsidianPilot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObsidianPilot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		19669D4894B0F9FE171A1B6A /* VerifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyView.swift; sourceTree = "<group>"; };
+		1E8F826059AC90A4C2835359 /* OrganizeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizeViewModel.swift; sourceTree = "<group>"; };
+		200118F8DC1B2A02EAD46348 /* CaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
+		3C7895D3C8B940BCD764029B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		46D30F29B193771DD43F99AF /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		4AE53F15111DE79B6A985A39 /* IdeaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdeaView.swift; sourceTree = "<group>"; };
+		55CBEE54BE72AE5395523B47 /* OrganizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizeView.swift; sourceTree = "<group>"; };
+		591223122814659084BD638D /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
+		5A59BC8DC8C38F485EED76C3 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
+		62464ADC99D9E74149D88225 /* CaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureViewModel.swift; sourceTree = "<group>"; };
+		688F3F11C7E50918A8A838FD /* ObsidianPilotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObsidianPilotApp.swift; sourceTree = "<group>"; };
+		7616A3B3ED7E5172FBC5DF2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8294329C76CECFA8F789B8EC /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
+		8F4C43A5A0ABEEE1B0BC7427 /* VerifyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewModel.swift; sourceTree = "<group>"; };
+		96E2E36FFD01A96450DB0A67 /* VaultFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultFile.swift; sourceTree = "<group>"; };
+		9CD6A23775EA21A2C1C15A53 /* ObsidianPilot.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ObsidianPilot.entitlements; sourceTree = "<group>"; };
+		9D3F6DEB26EC2C204255E33A /* IdeaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdeaViewModel.swift; sourceTree = "<group>"; };
+		A00C7489FA05878547025A3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E2AB4BF8360E1985E7806E70 /* VaultService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultService.swift; sourceTree = "<group>"; };
+		AA00000100000000000000F1 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		AA00000200000000000000F1 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		AA00000300000000000000F1 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
+		AA00000400000000000000F1 /* FeatureHistorySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureHistorySection.swift; sourceTree = "<group>"; };
+		AA00000500000000000000F1 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		AA00000600000000000000F1 /* MathMarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathMarkdownView.swift; sourceTree = "<group>"; };
+		AA00000700000000000000F1 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		AA00000800000000000000F1 /* ProgressPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressPanel.swift; sourceTree = "<group>"; };
+		AA00000900000000000000F2 /* ClaudeStatusPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeStatusPanel.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AA0000FF000000000000000F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA00000A000000000000001A /* MarkdownUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		24793E792157F3B8AA8B4FB4 = {
+			isa = PBXGroup;
+			children = (
+				6BBE8B9D88013CD3E1F4D87F /* ObsidianPilot */,
+				E3194864ED34F855A25EB4E1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3BD2729D21834BA3A07572F7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA00000100000000000000F1 /* Session.swift */,
+				96E2E36FFD01A96450DB0A67 /* VaultFile.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		516C80706C28317332DC047E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				62464ADC99D9E74149D88225 /* CaptureViewModel.swift */,
+				AA00000300000000000000F1 /* HistoryViewModel.swift */,
+				9D3F6DEB26EC2C204255E33A /* IdeaViewModel.swift */,
+				1E8F826059AC90A4C2835359 /* OrganizeViewModel.swift */,
+				8F4C43A5A0ABEEE1B0BC7427 /* VerifyViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		533B0A62C57994C122491667 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				200118F8DC1B2A02EAD46348 /* CaptureView.swift */,
+				AA00000900000000000000F2 /* ClaudeStatusPanel.swift */,
+				AA00000400000000000000F1 /* FeatureHistorySection.swift */,
+				AA00000500000000000000F1 /* HistoryView.swift */,
+				4AE53F15111DE79B6A985A39 /* IdeaView.swift */,
+				5A59BC8DC8C38F485EED76C3 /* MainWindow.swift */,
+				AA00000600000000000000F1 /* MathMarkdownView.swift */,
+				46D30F29B193771DD43F99AF /* MenuBarView.swift */,
+				AA00000700000000000000F1 /* OnboardingView.swift */,
+				55CBEE54BE72AE5395523B47 /* OrganizeView.swift */,
+				AA00000800000000000000F1 /* ProgressPanel.swift */,
+				3C7895D3C8B940BCD764029B /* SettingsView.swift */,
+				19669D4894B0F9FE171A1B6A /* VerifyView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6BBE8B9D88013CD3E1F4D87F /* ObsidianPilot */ = {
+			isa = PBXGroup;
+			children = (
+				7616A3B3ED7E5172FBC5DF2C /* Assets.xcassets */,
+				A00C7489FA05878547025A3B /* Info.plist */,
+				9CD6A23775EA21A2C1C15A53 /* ObsidianPilot.entitlements */,
+				688F3F11C7E50918A8A838FD /* ObsidianPilotApp.swift */,
+				3BD2729D21834BA3A07572F7 /* Models */,
+				7C2AE4B60185D560649660FC /* Services */,
+				516C80706C28317332DC047E /* ViewModels */,
+				533B0A62C57994C122491667 /* Views */,
+			);
+			path = ObsidianPilot;
+			sourceTree = "<group>";
+		};
+		7C2AE4B60185D560649660FC /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				591223122814659084BD638D /* ClaudeService.swift */,
+				AA00000200000000000000F1 /* SessionStore.swift */,
+				8294329C76CECFA8F789B8EC /* SettingsService.swift */,
+				E2AB4BF8360E1985E7806E70 /* VaultService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E3194864ED34F855A25EB4E1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0F8CDF3EB135C9BA1A0B5071 /* ObsidianPilot.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		50F8023CA264BC09762661A5 /* ObsidianPilot */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ED0B79F11AC95E1B1DD08922 /* Build configuration list for PBXNativeTarget "ObsidianPilot" */;
+			buildPhases = (
+				EBEE4F08A2D9421A50309BDE /* Sources */,
+				AA0000FF000000000000000F /* Frameworks */,
+				7A6E5736980CBF2D6C359DF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ObsidianPilot;
+			packageProductDependencies = (
+				AA00000900000000000000F1 /* MarkdownUI */,
+			);
+			productName = ObsidianPilot;
+			productReference = 0F8CDF3EB135C9BA1A0B5071 /* ObsidianPilot.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2B1FB294EC408305F77AC804 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					50F8023CA264BC09762661A5 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 02BE906AF700E95D45ADA467 /* Build configuration list for PBXProject "ObsidianPilot" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 24793E792157F3B8AA8B4FB4;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AA0000FE000000000000000F /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = E3194864ED34F855A25EB4E1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				50F8023CA264BC09762661A5 /* ObsidianPilot */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7A6E5736980CBF2D6C359DF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5EB19A0EB128062D9A1CD70D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EBEE4F08A2D9421A50309BDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17E752835C8C7A6491BCCE70 /* CaptureView.swift in Sources */,
+				5A1226919D7282E8E5B79E12 /* CaptureViewModel.swift in Sources */,
+				AA000009000000000000001A /* ClaudeStatusPanel.swift in Sources */,
+				E2E86B1EC7F55362DEE4097E /* ClaudeService.swift in Sources */,
+				AA000004000000000000001A /* FeatureHistorySection.swift in Sources */,
+				AA000005000000000000001A /* HistoryView.swift in Sources */,
+				AA000003000000000000001A /* HistoryViewModel.swift in Sources */,
+				E1D3C955A900F4A7383B8992 /* IdeaView.swift in Sources */,
+				4E7D1CC6CB7142EFE4428EE7 /* IdeaViewModel.swift in Sources */,
+				1C815EB6F6FE49C6D53E6D14 /* MainWindow.swift in Sources */,
+				AA000006000000000000001A /* MathMarkdownView.swift in Sources */,
+				11ED217D975F8646C80D9077 /* MenuBarView.swift in Sources */,
+				B068C0CEAACAD8C1B21E4B26 /* ObsidianPilotApp.swift in Sources */,
+				AA000007000000000000001A /* OnboardingView.swift in Sources */,
+				9215507A839D5DB935107038 /* OrganizeView.swift in Sources */,
+				2ABA85DF5AF2A66612ADE562 /* OrganizeViewModel.swift in Sources */,
+				AA000008000000000000001A /* ProgressPanel.swift in Sources */,
+				AA000001000000000000001A /* Session.swift in Sources */,
+				AA000002000000000000001A /* SessionStore.swift in Sources */,
+				6CAFF036E903C6CE3C9DF2CA /* SettingsService.swift in Sources */,
+				EACD7715A41185B9C0B288B1 /* SettingsView.swift in Sources */,
+				F6F0297BC9AEB352AC0B70E8 /* VaultFile.swift in Sources */,
+				70A74025590B426276A3549C /* VaultService.swift in Sources */,
+				C4B908DDFE30022829E6E391 /* VerifyView.swift in Sources */,
+				2077C3156C2ED35376DF463F /* VerifyViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1F44A2BBB544E5A0030794FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A10CAEB0BBF25E323BB36B4C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_ENTITLEMENTS = ObsidianPilot/ObsidianPilot.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = ObsidianPilot/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.obsidianpilot.app;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		B1152B9858AACBC5703B37A9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		CF954BBBFFF453ADB90DF80B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_ENTITLEMENTS = ObsidianPilot/ObsidianPilot.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = ObsidianPilot/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.obsidianpilot.app;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCBuildConfiguration section (cont.) */
+/* End XCBuildConfiguration section (cont.) */
+
+/* Begin XCConfigurationList section */
+		02BE906AF700E95D45ADA467 /* Build configuration list for PBXProject "ObsidianPilot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F44A2BBB544E5A0030794FA /* Debug */,
+				B1152B9858AACBC5703B37A9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		ED0B79F11AC95E1B1DD08922 /* Build configuration list for PBXNativeTarget "ObsidianPilot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CF954BBBFFF453ADB90DF80B /* Debug */,
+				A10CAEB0BBF25E323BB36B4C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AA0000FE000000000000000F /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AA00000900000000000000F1 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA0000FE000000000000000F /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 2B1FB294EC408305F77AC804 /* Project object */;
+}

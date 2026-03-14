@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleName</key>
+	<string>ObsidianPilot</string>
+	<key>CFBundleDisplayName</key>
+	<string>ObsidianPilot</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.obsidianpilot.app</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleExecutable</key>
+	<string>ObsidianPilot</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>obsidianpilot</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
