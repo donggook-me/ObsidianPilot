@@ -438,6 +438,9 @@ final class ClaudeService: Sendable {
 
         args += ["--permission-mode", "acceptEdits"]
 
+        // WebSearch, WebFetch 도구 허용
+        args += ["--allowedTools", "WebSearch", "WebFetch"]
+
         // base 세션 없으면 기존 동작 (독립 실행)
         if baseSessionId == nil {
             args.append("--no-session-persistence")

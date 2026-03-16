@@ -16,6 +16,10 @@ struct MainWindow: View {
         }
         .frame(minWidth: 700, idealWidth: 800, maxWidth: .infinity,
                minHeight: 500, idealHeight: 600, maxHeight: .infinity)
+        .onAppear {
+            // 앱 시작 시 항상 캡처 화면으로
+            activeToolTab = nil
+        }
     }
 
     // MARK: - Capture Screen (메인)
@@ -30,16 +34,9 @@ struct MainWindow: View {
             // 캡처 입력 영역
             captureInputArea
 
-            // 진행 상태
-            if appState.captureVM.isRunning {
-                ProgressPanel(
-                    progress: appState.captureVM.progress,
-                    title: "분류 및 저장 중",
-                    estimatedTime: appState.sessionStore.estimatedTimeString(for: "capture"),
-                    onCancel: { appState.captureVM.cancel() }
-                )
-                .padding(.horizontal)
-                .padding(.bottom, 8)
+            // 큐 상태
+            if appState.captureVM.hasQueueItems {
+                captureQueuePanel
             }
 
             Divider()
@@ -128,16 +125,27 @@ struct MainWindow: View {
                     .stroke(Color.secondary.opacity(0.15))
             )
 
-            // 저장 버튼
+            // 하단: 큐 카운트 + 저장 버튼
             HStack {
+                // 큐에 대기 중인 항목이 있으면 표시
+                if appState.captureVM.waitingCount > 0 {
+                    HStack(spacing: 4) {
+                        Image(systemName: "tray.full")
+                            .font(.system(size: 11))
+                        Text("\(appState.captureVM.waitingCount)개 대기 중")
+                            .font(.system(size: 11))
+                    }
+                    .foregroundStyle(.secondary)
+                }
+
                 Spacer()
 
                 Button {
                     appState.captureVM.capture(claude: appState.claude, sessionStore: appState.sessionStore)
                 } label: {
                     HStack(spacing: 6) {
-                        Image(systemName: "paperplane.fill")
-                        Text("저장")
+                        Image(systemName: appState.captureVM.isProcessing ? "plus.circle.fill" : "paperplane.fill")
+                        Text(appState.captureVM.isProcessing ? "큐에 추가" : "저장")
                     }
                     .font(.system(size: 13, weight: .medium))
                     .padding(.horizontal, 20)
@@ -145,14 +153,116 @@ struct MainWindow: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(
-                    appState.captureVM.isRunning ||
                     appState.captureVM.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                 )
                 .keyboardShortcut(.return, modifiers: .command)
-                .help("입력한 내용을 Claude가 분류하여 vault에 저장합니다 (⌘+Return)")
+                .help("입력한 내용을 큐에 추가합니다. Claude가 순서대로 처리합니다 (⌘+Return)")
             }
         }
         .padding(16)
+    }
+
+    // MARK: - Capture Queue Panel
+
+    private var captureQueuePanel: some View {
+        VStack(spacing: 0) {
+            // 헤더
+            HStack {
+                Image(systemName: "tray.2")
+                    .font(.system(size: 11))
+                    .foregroundStyle(.blue)
+                Text("캡처 큐")
+                    .font(.system(size: 11, weight: .semibold))
+
+                if appState.captureVM.isProcessing {
+                    ProgressView()
+                        .controlSize(.mini)
+                }
+
+                Spacer()
+
+                if appState.captureVM.queue.contains(where: { $0.status == .completed || $0.status == .failed }) {
+                    Button {
+                        appState.captureVM.clearFinished()
+                    } label: {
+                        Text("정리")
+                            .font(.system(size: 10))
+                            .foregroundStyle(.secondary)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 6)
+
+            // 큐 항목 리스트
+            ForEach(appState.captureVM.queue) { item in
+                HStack(spacing: 8) {
+                    // 상태 아이콘
+                    if item.status == .processing {
+                        ProgressView()
+                            .controlSize(.mini)
+                            .frame(width: 14, height: 14)
+                    } else {
+                        Image(systemName: item.statusIcon)
+                            .font(.system(size: 11))
+                            .foregroundStyle(item.statusColor)
+                            .frame(width: 14)
+                    }
+
+                    // 내용 미리보기
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(item.preview)
+                            .font(.system(size: 11))
+                            .lineLimit(1)
+
+                        if item.status == .processing {
+                            Text(item.progress.currentActivity)
+                                .font(.system(size: 9))
+                                .foregroundStyle(.blue)
+                                .lineLimit(1)
+                        } else if let error = item.error {
+                            Text(error)
+                                .font(.system(size: 9))
+                                .foregroundStyle(.red)
+                        }
+                    }
+
+                    Spacer()
+
+                    // 액션
+                    if item.status == .waiting {
+                        Button {
+                            appState.captureVM.removeWaiting(item.id)
+                        } label: {
+                            Image(systemName: "xmark")
+                                .font(.system(size: 9))
+                                .foregroundStyle(.secondary)
+                        }
+                        .buttonStyle(.plain)
+                        .help("큐에서 제거")
+                    } else if item.status == .processing {
+                        Button {
+                            appState.captureVM.cancel()
+                        } label: {
+                            Image(systemName: "stop.circle")
+                                .font(.system(size: 11))
+                                .foregroundStyle(.red)
+                        }
+                        .buttonStyle(.plain)
+                        .help("취소")
+                    } else if item.status == .completed {
+                        Text("\(item.progress.elapsedSeconds)s")
+                            .font(.system(size: 9))
+                            .foregroundStyle(.quaternary)
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 4)
+                .background(item.status == .processing ? Color.blue.opacity(0.04) : Color.clear)
+            }
+        }
+        .background(Color(nsColor: .controlBackgroundColor).opacity(0.3))
     }
 
     // MARK: - Capture Result
