@@ -34,6 +34,8 @@
 		AA000008000000000000001A /* ProgressPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000800000000000000F1 /* ProgressPanel.swift */; };
 		AA000009000000000000001A /* ClaudeStatusPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000900000000000000F2 /* ClaudeStatusPanel.swift */; };
 		AA00000A000000000000001A /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = AA00000900000000000000F1 /* MarkdownUI */; };
+		BB000001000000000000001A /* DoctorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000100000000000000F1 /* DoctorService.swift */; };
+		BB000002000000000000001A /* DoctorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB00000200000000000000F1 /* DoctorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +68,8 @@
 		AA00000700000000000000F1 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		AA00000800000000000000F1 /* ProgressPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressPanel.swift; sourceTree = "<group>"; };
 		AA00000900000000000000F2 /* ClaudeStatusPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeStatusPanel.swift; sourceTree = "<group>"; };
+		BB00000100000000000000F1 /* DoctorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorService.swift; sourceTree = "<group>"; };
+		BB00000200000000000000F1 /* DoctorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +118,7 @@
 			children = (
 				200118F8DC1B2A02EAD46348 /* CaptureView.swift */,
 				AA00000900000000000000F2 /* ClaudeStatusPanel.swift */,
+				BB00000200000000000000F1 /* DoctorView.swift */,
 				AA00000400000000000000F1 /* FeatureHistorySection.swift */,
 				AA00000500000000000000F1 /* HistoryView.swift */,
 				4AE53F15111DE79B6A985A39 /* IdeaView.swift */,
@@ -148,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				591223122814659084BD638D /* ClaudeService.swift */,
+				BB00000100000000000000F1 /* DoctorService.swift */,
 				AA00000200000000000000F1 /* SessionStore.swift */,
 				8294329C76CECFA8F789B8EC /* SettingsService.swift */,
 				E2AB4BF8360E1985E7806E70 /* VaultService.swift */,
@@ -243,6 +249,8 @@
 				5A1226919D7282E8E5B79E12 /* CaptureViewModel.swift in Sources */,
 				AA000009000000000000001A /* ClaudeStatusPanel.swift in Sources */,
 				E2E86B1EC7F55362DEE4097E /* ClaudeService.swift in Sources */,
+				BB000001000000000000001A /* DoctorService.swift in Sources */,
+				BB000002000000000000001A /* DoctorView.swift in Sources */,
 				AA000004000000000000001A /* FeatureHistorySection.swift in Sources */,
 				AA000005000000000000001A /* HistoryView.swift in Sources */,
 				AA000003000000000000001A /* HistoryViewModel.swift in Sources */,

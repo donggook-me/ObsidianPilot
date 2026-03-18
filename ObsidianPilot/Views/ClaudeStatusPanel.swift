@@ -132,6 +132,30 @@ struct ClaudeStatusPanel: View {
             // 업타임
             let _ = uptimeRefresh
             infoRow(icon: "clock", label: "앱 가동", value: usage.uptimeString)
+
+            Divider().padding(.vertical, 2)
+
+            // Doctor 진단 버튼
+            Button {
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    appState.activeToolTab = .doctor
+                }
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "stethoscope")
+                        .font(.system(size: 11))
+                    Text("Doctor 진단")
+                        .font(.system(size: 11))
+                    Spacer()
+                    Text("⇧⌘D")
+                        .font(.system(size: 9))
+                        .foregroundStyle(.tertiary)
+                }
+                .padding(.vertical, 4)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(.blue)
         }
         .padding(.horizontal, 14)
         .padding(.bottom, 10)

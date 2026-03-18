@@ -6,7 +6,7 @@ struct VerifyView: View {
     private var vm: VerifyViewModel { appState.verifyVM }
 
     var body: some View {
-        HSplitView {
+        HStack(spacing: 0) {
             // Left: File List + 기록
             VStack(spacing: 0) {
                 HStack {
@@ -50,7 +50,9 @@ struct VerifyView: View {
 
                 FeatureHistorySection(feature: "verify", sessionStore: appState.sessionStore)
             }
-            .frame(minWidth: 220, idealWidth: 280)
+            .frame(minWidth: 220, idealWidth: 280, maxWidth: 320)
+
+            Divider()
 
             // Right: Verify Result
             VStack(spacing: 0) {
@@ -110,7 +112,7 @@ struct VerifyView: View {
                     MathMarkdownView(content: vm.result)
                 }
             }
-            .frame(minWidth: 300, idealWidth: 450)
+            .frame(minWidth: 300, idealWidth: 450, maxWidth: .infinity)
         }
         .onAppear {
             if vm.recentFiles.isEmpty {

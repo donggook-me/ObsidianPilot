@@ -30,7 +30,45 @@ struct ObsidianPilotApp: App {
             .handlesExternalEvents(preferring: ["main"], allowing: ["main"])
         }
         .defaultSize(width: appState.settings.isOnboarded ? 800 : 560, height: appState.settings.isOnboarded ? 600 : 520)
+        .windowResizability(.contentMinSize)
         .handlesExternalEvents(matching: ["main"])
+        .commands {
+            CommandMenu("이동") {
+                Button("캡처 (메인)") {
+                    withAnimation(.easeInOut(duration: 0.2)) { appState.activeToolTab = nil }
+                }
+                .keyboardShortcut("0", modifiers: .command)
+
+                Divider()
+
+                Button("정리") {
+                    withAnimation(.easeInOut(duration: 0.2)) { appState.activeToolTab = .organize }
+                }
+                .keyboardShortcut("1", modifiers: .command)
+
+                Button("검증") {
+                    withAnimation(.easeInOut(duration: 0.2)) { appState.activeToolTab = .verify }
+                }
+                .keyboardShortcut("2", modifiers: .command)
+
+                Button("아이디어") {
+                    withAnimation(.easeInOut(duration: 0.2)) { appState.activeToolTab = .ideas }
+                }
+                .keyboardShortcut("3", modifiers: .command)
+
+                Button("기록") {
+                    withAnimation(.easeInOut(duration: 0.2)) { appState.activeToolTab = .history }
+                }
+                .keyboardShortcut("4", modifiers: .command)
+
+                Divider()
+
+                Button("Doctor 진단") {
+                    withAnimation(.easeInOut(duration: 0.2)) { appState.activeToolTab = .doctor }
+                }
+                .keyboardShortcut("d", modifiers: [.command, .shift])
+            }
+        }
 
         Settings {
             SettingsView()
@@ -68,9 +106,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             )
         }
 
-        // 메인 윈도우 활성화
+        // 메인 윈도우 활성화 및 최소 크기 강제 적용
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             NSApplication.shared.activate(ignoringOtherApps: true)
+            for window in NSApplication.shared.windows where !(window is NSPanel) && window.level == .normal {
+                window.minSize = NSSize(width: 700, height: 500)
+                // 윈도우가 최소 크기보다 작으면 복원
+                if window.frame.width < 700 || window.frame.height < 500 {
+                    let newWidth = max(window.frame.width, 700)
+                    let newHeight = max(window.frame.height, 500)
+                    window.setFrame(NSRect(
+                        x: window.frame.origin.x,
+                        y: window.frame.origin.y - (newHeight - window.frame.height),
+                        width: newWidth, height: newHeight
+                    ), display: true, animate: true)
+                }
+            }
         }
     }
 
@@ -251,6 +302,7 @@ class ClaudeUsageStats: ObservableObject {
 @MainActor
 class AppState: ObservableObject {
     @Published var selectedTab: AppTab = .history
+    @Published var activeToolTab: AppTab? = nil
     @Published var isProcessing = false
     @Published var statusMessage = ""
     @Published var isClaudeReady = false
@@ -270,6 +322,7 @@ class AppState: ObservableObject {
     var ideaVM: IdeaViewModel
     var captureVM: CaptureViewModel
     var historyVM: HistoryViewModel
+    var doctorService: DoctorService
 
     /// 이전 실행 상태 (완료 알림 감지용)
     private var previouslyRunning: Set<String> = []
@@ -286,6 +339,7 @@ class AppState: ObservableObject {
         self.ideaVM = IdeaViewModel()
         self.captureVM = CaptureViewModel()
         self.historyVM = HistoryViewModel()
+        self.doctorService = DoctorService()
 
         // VM/Store 변경사항을 AppState로 전파 → View 갱신 보장
         forwardChanges(from: organizeVM)
@@ -295,6 +349,7 @@ class AppState: ObservableObject {
         forwardChanges(from: historyVM)
         forwardChanges(from: sessionStore)
         forwardChanges(from: claudeUsage)
+        forwardChanges(from: doctorService)
 
         // 알림 권한 요청
         requestNotificationPermission()
@@ -482,6 +537,7 @@ enum AppTab: String, CaseIterable, Identifiable {
     case ideas = "Ideas"
     case capture = "Capture"
     case history = "History"
+    case doctor = "Doctor"
 
     var id: String { rawValue }
 
@@ -492,6 +548,7 @@ enum AppTab: String, CaseIterable, Identifiable {
         case .ideas: return "lightbulb"
         case .capture: return "square.and.pencil"
         case .history: return "clock.arrow.circlepath"
+        case .doctor: return "stethoscope"
         }
     }
 
@@ -502,6 +559,7 @@ enum AppTab: String, CaseIterable, Identifiable {
         case .ideas: return "아이디어"
         case .capture: return "캡처"
         case .history: return "기록"
+        case .doctor: return "Doctor"
         }
     }
 }

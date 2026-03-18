@@ -107,7 +107,10 @@ class IdeaViewModel: ObservableObject {
             } catch let err as ClaudeError where err.errorDescription == "작업이 취소되었습니다" {
                 self.error = nil
             } catch {
-                self.error = error.localizedDescription
+                let errMsg = "\(error)"
+                print("[IdeaVM] sendMessage error: \(errMsg)")
+                self.error = errMsg
+                self.messages.append(IdeaMessage(role: .assistant, content: "오류: \(errMsg)"))
             }
             self.isRunning = false
         }
@@ -141,7 +144,10 @@ class IdeaViewModel: ObservableObject {
             } catch let err as ClaudeError where err.errorDescription == "작업이 취소되었습니다" {
                 self.error = nil
             } catch {
-                self.error = error.localizedDescription
+                let errMsg = "\(error)"
+                print("[IdeaVM] runPreset error: \(errMsg)")
+                self.error = errMsg
+                self.messages.append(IdeaMessage(role: .assistant, content: "오류: \(errMsg)"))
             }
             self.isRunning = false
         }

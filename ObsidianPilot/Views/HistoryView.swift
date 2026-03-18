@@ -7,7 +7,7 @@ struct HistoryView: View {
     private var store: SessionStore { appState.sessionStore }
 
     var body: some View {
-        HSplitView {
+        HStack(spacing: 0) {
             // Left: Session List
             VStack(spacing: 0) {
                 // Filter
@@ -72,7 +72,9 @@ struct HistoryView: View {
                     .listStyle(.inset)
                 }
             }
-            .frame(minWidth: 240, idealWidth: 280)
+            .frame(minWidth: 240, idealWidth: 280, maxWidth: 320)
+
+            Divider()
 
             // Right: Session Detail
             VStack(spacing: 0) {
@@ -132,7 +134,7 @@ struct HistoryView: View {
                     Spacer()
                 }
             }
-            .frame(minWidth: 300, idealWidth: 450)
+            .frame(minWidth: 300, idealWidth: 450, maxWidth: .infinity)
         }
     }
 }

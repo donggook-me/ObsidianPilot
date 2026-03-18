@@ -439,7 +439,7 @@ final class ClaudeService: Sendable {
         args += ["--permission-mode", "acceptEdits"]
 
         // WebSearch, WebFetch 도구 허용
-        args += ["--allowedTools", "WebSearch", "WebFetch"]
+        args += ["--allowedTools", "WebSearch,WebFetch"]
 
         // base 세션 없으면 기존 동작 (독립 실행)
         if baseSessionId == nil {
@@ -474,6 +474,17 @@ final class ClaudeService: Sendable {
         process.standardError = stderr
 
         try process.run()
+
+        // stderr를 미리 비동기로 수집 (프로세스 종료 후 읽으면 빈 데이터가 될 수 있음)
+        let stderrHandle = stderr.fileHandleForReading
+        var stderrCollected = Data()
+        let stderrQueue = DispatchQueue(label: "stderr-collector")
+        stderrHandle.readabilityHandler = { handle in
+            let data = handle.availableData
+            if !data.isEmpty {
+                stderrQueue.sync { stderrCollected.append(data) }
+            }
+        }
 
         await progress.start(isWarmSession: isWarm)
         await MainActor.run { progress.currentProcess = process }
@@ -554,12 +565,21 @@ final class ClaudeService: Sendable {
                     if self.baseSessionId != nil {
                         self.baseSessionId = nil
                     }
-                    let errorData = stderr.fileHandleForReading.readDataToEndOfFile()
-                    let errorStr = String(data: errorData, encoding: .utf8) ?? "Unknown error"
+                    stderrHandle.readabilityHandler = nil
+                    let errorStr = stderrQueue.sync {
+                        String(data: stderrCollected, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+                    }
+                    let finalMessage: String
+                    if errorStr.isEmpty && exitCode == 1 {
+                        finalMessage = "인증이 만료되었거나 Claude 세션이 비정상 종료되었습니다. 터미널에서 'claude /login'으로 재인증해주세요."
+                    } else {
+                        finalMessage = errorStr.isEmpty ? "알 수 없는 오류" : errorStr
+                    }
                     continuation.resume(throwing: ClaudeError.processError(
-                        code: exitCode, message: errorStr
+                        code: exitCode, message: finalMessage
                     ))
                 } else {
+                    stderrHandle.readabilityHandler = nil
                     let finalResult = accumulated.isEmpty ? "" : accumulated
                     continuation.resume(returning: finalResult)
                 }
@@ -592,8 +612,14 @@ final class ClaudeService: Sendable {
         guard process.terminationStatus == 0 else {
             if baseSessionId != nil { baseSessionId = nil }
             let errorData = stderr.fileHandleForReading.readDataToEndOfFile()
-            let errorStr = String(data: errorData, encoding: .utf8) ?? "Unknown error"
-            throw ClaudeError.processError(code: process.terminationStatus, message: errorStr)
+            let errorStr = String(data: errorData, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            let finalMessage: String
+            if errorStr.isEmpty && process.terminationStatus == 1 {
+                finalMessage = "인증이 만료되었거나 Claude 세션이 비정상 종료되었습니다. 터미널에서 'claude /login'으로 재인증해주세요."
+            } else {
+                finalMessage = errorStr.isEmpty ? "알 수 없는 오류" : errorStr
+            }
+            throw ClaudeError.processError(code: process.terminationStatus, message: finalMessage)
         }
 
         return String(data: outputData, encoding: .utf8) ?? ""

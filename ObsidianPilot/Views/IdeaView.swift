@@ -7,14 +7,21 @@ struct IdeaView: View {
     private var vm: IdeaViewModel { appState.ideaVM }
 
     var body: some View {
-        HSplitView {
+        HStack(spacing: 0) {
             // 왼쪽: 대화 영역
             conversationPanel
-                .frame(minWidth: 400)
+                .frame(minWidth: 400, maxWidth: .infinity)
+
+            Divider()
 
             // 오른쪽: 컨텍스트 사이드바
             contextSidebar
                 .frame(width: 240)
+        }
+        .onAppear {
+            if vm.vaultContext == nil {
+                vm.loadVaultContext(vault: appState.vault)
+            }
         }
     }
 

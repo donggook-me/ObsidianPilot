@@ -2,7 +2,8 @@ import SwiftUI
 
 struct MainWindow: View {
     @EnvironmentObject var appState: AppState
-    @State private var activeToolTab: AppTab? = nil
+
+    private var activeToolTab: AppTab? { appState.activeToolTab }
 
     var body: some View {
         Group {
@@ -18,7 +19,7 @@ struct MainWindow: View {
                minHeight: 500, idealHeight: 600, maxHeight: .infinity)
         .onAppear {
             // 앱 시작 시 항상 캡처 화면으로
-            activeToolTab = nil
+            appState.activeToolTab = nil
         }
     }
 
@@ -388,10 +389,14 @@ struct MainWindow: View {
         .background(Color(nsColor: .controlBackgroundColor).opacity(0.3))
     }
 
+    private var shortcutLabel: [AppTab: String] {
+        [.organize: "⌘1", .verify: "⌘2", .ideas: "⌘3", .history: "⌘4"]
+    }
+
     private func toolCardButton(icon: String, label: String, description: String, color: Color, tab: AppTab) -> some View {
         Button {
             withAnimation(.easeInOut(duration: 0.2)) {
-                activeToolTab = tab
+                appState.activeToolTab = tab
                 appState.selectedTab = tab
             }
         } label: {
@@ -422,12 +427,19 @@ struct MainWindow: View {
             )
         }
         .buttonStyle(.plain)
+        .help("\(label) (\(shortcutLabel[tab] ?? ""))")
         .overlay(alignment: .topTrailing) {
             if appState.runningTabs.contains(tab) {
                 ProgressView()
                     .controlSize(.mini)
                     .padding(4)
             }
+        }
+        .overlay(alignment: .topLeading) {
+            Text(shortcutLabel[tab] ?? "")
+                .font(.system(size: 9))
+                .foregroundStyle(.tertiary)
+                .padding(5)
         }
     }
 
@@ -439,7 +451,7 @@ struct MainWindow: View {
             HStack(spacing: 12) {
                 Button {
                     withAnimation(.easeInOut(duration: 0.2)) {
-                        activeToolTab = nil
+                        appState.activeToolTab = nil
                     }
                 } label: {
                     HStack(spacing: 4) {
@@ -451,6 +463,7 @@ struct MainWindow: View {
                 }
                 .buttonStyle(.plain)
                 .foregroundStyle(Color.accentColor)
+                .help("메인 캡처 화면으로 돌아가기 (⌘0)")
 
                 Divider()
                     .frame(height: 16)
@@ -492,6 +505,8 @@ struct MainWindow: View {
                     IdeaView()
                 case .history:
                     HistoryView()
+                case .doctor:
+                    DoctorView(doctor: appState.doctorService)
                 case .capture:
                     EmptyView()
                 }
@@ -506,6 +521,7 @@ struct MainWindow: View {
         case .verify: return .green
         case .ideas: return .orange
         case .history: return .purple
+        case .doctor: return .blue
         case .capture: return Color.accentColor
         }
     }
