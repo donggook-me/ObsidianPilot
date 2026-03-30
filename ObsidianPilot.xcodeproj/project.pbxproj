@@ -11,6 +11,10 @@
 		17E752835C8C7A6491BCCE70 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200118F8DC1B2A02EAD46348 /* CaptureView.swift */; };
 		1C815EB6F6FE49C6D53E6D14 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A59BC8DC8C38F485EED76C3 /* MainWindow.swift */; };
 		2077C3156C2ED35376DF463F /* VerifyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C43A5A0ABEEE1B0BC7427 /* VerifyViewModel.swift */; };
+		6C2CAF32EF55471AA07E59F3 /* PublishViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishViewModel.swift; sourceTree = "<group>"; };
+		87221FB572FB4E1C883723FF /* PublishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishView.swift; sourceTree = "<group>"; };
+		7D67DA2DC16C4C44B50CA18B /* PublishViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2CAF32EF55471AA07E59F3 /* PublishViewModel.swift */; };
+		D3AC7F8C093846279B93FDAE /* PublishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87221FB572FB4E1C883723FF /* PublishView.swift */; };
 		2ABA85DF5AF2A66612ADE562 /* OrganizeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E8F826059AC90A4C2835359 /* OrganizeViewModel.swift */; };
 		4E7D1CC6CB7142EFE4428EE7 /* IdeaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3F6DEB26EC2C204255E33A /* IdeaViewModel.swift */; };
 		5A1226919D7282E8E5B79E12 /* CaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62464ADC99D9E74149D88225 /* CaptureViewModel.swift */; };
@@ -109,6 +113,7 @@
 				9D3F6DEB26EC2C204255E33A /* IdeaViewModel.swift */,
 				1E8F826059AC90A4C2835359 /* OrganizeViewModel.swift */,
 				8F4C43A5A0ABEEE1B0BC7427 /* VerifyViewModel.swift */,
+				6C2CAF32EF55471AA07E59F3 /* PublishViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -130,6 +135,7 @@
 				AA00000800000000000000F1 /* ProgressPanel.swift */,
 				3C7895D3C8B940BCD764029B /* SettingsView.swift */,
 				19669D4894B0F9FE171A1B6A /* VerifyView.swift */,
+				87221FB572FB4E1C883723FF /* PublishView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -271,7 +277,9 @@
 				F6F0297BC9AEB352AC0B70E8 /* VaultFile.swift in Sources */,
 				70A74025590B426276A3549C /* VaultService.swift in Sources */,
 				C4B908DDFE30022829E6E391 /* VerifyView.swift in Sources */,
+				D3AC7F8C093846279B93FDAE /* PublishView.swift in Sources */,
 				2077C3156C2ED35376DF463F /* VerifyViewModel.swift in Sources */,
+				7D67DA2DC16C4C44B50CA18B /* PublishViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
