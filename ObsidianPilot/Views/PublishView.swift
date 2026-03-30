@@ -258,7 +258,7 @@ struct PublishView: View {
             }
             Spacer()
 
-        } else if vm.currentPhase == .done && !vm.deployedURL.isEmpty {
+        } else if vm.currentPhase == .done && !vm.result.isEmpty {
             // 배포 완료
             deploySuccessView
 
@@ -409,29 +409,50 @@ struct PublishView: View {
                     .foregroundStyle(.green)
                 Text("배포 완료")
                     .font(.system(size: 14, weight: .semibold))
-                Spacer()
-                Button {
-                    NSPasteboard.general.clearContents()
-                    NSPasteboard.general.setString(vm.deployedURL, forType: .string)
-                } label: {
-                    Label("URL 복사", systemImage: "doc.on.doc")
-                        .font(.system(size: 11))
-                }
-                .buttonStyle(.bordered)
 
-                Button {
-                    if let url = URL(string: vm.deployedURL) {
-                        NSWorkspace.shared.open(url)
+                Spacer()
+
+                if !vm.deployedURL.isEmpty {
+                    Button {
+                        NSPasteboard.general.clearContents()
+                        NSPasteboard.general.setString(vm.deployedURL, forType: .string)
+                    } label: {
+                        Label("URL 복사", systemImage: "doc.on.doc")
+                            .font(.system(size: 11))
                     }
-                } label: {
-                    Label("열기", systemImage: "safari")
-                        .font(.system(size: 11))
+                    .buttonStyle(.bordered)
+
+                    Button {
+                        if let url = URL(string: vm.deployedURL) {
+                            NSWorkspace.shared.open(url)
+                        }
+                    } label: {
+                        Label("열기", systemImage: "safari")
+                            .font(.system(size: 11))
+                    }
+                    .buttonStyle(.bordered)
                 }
-                .buttonStyle(.bordered)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
             .background(Color.green.opacity(0.06))
+
+            // 배포 URL 강조 표시
+            if !vm.deployedURL.isEmpty {
+                HStack(spacing: 6) {
+                    Image(systemName: "link")
+                        .font(.system(size: 11))
+                        .foregroundStyle(.indigo)
+                    Text(vm.deployedURL)
+                        .font(.system(size: 12, design: .monospaced))
+                        .foregroundStyle(.indigo)
+                        .textSelection(.enabled)
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(Color.indigo.opacity(0.06))
+            }
 
             Divider()
 

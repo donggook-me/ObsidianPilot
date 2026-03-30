@@ -284,9 +284,18 @@ class PublishViewModel: ObservableObject {
 
     private func extractURL(from text: String) -> String? {
         let pattern = #"https?://[^\s\)\]\"']+"#
-        guard let regex = try? NSRegularExpression(pattern: pattern),
-              let match = regex.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)),
-              let range = Range(match.range, in: text) else { return nil }
-        return String(text[range])
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return nil }
+        let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
+        let urls = matches.compactMap { Range($0.range, in: text).map { String(text[$0]) } }
+
+        // .vercel.app 프로덕션 URL 우선
+        if let prod = urls.first(where: { $0.contains(".vercel.app") && !$0.contains("-") }) {
+            return prod
+        }
+        // 그 외 vercel URL
+        if let vercel = urls.first(where: { $0.contains("vercel") }) {
+            return vercel
+        }
+        return urls.first
     }
 }
