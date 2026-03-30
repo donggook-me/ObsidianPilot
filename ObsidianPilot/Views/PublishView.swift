@@ -60,6 +60,19 @@ struct PublishView: View {
             .padding(12)
             .background(.bar)
 
+            // 동기화 요약 바
+            if !vm.blogPosts.isEmpty {
+                HStack(spacing: 10) {
+                    syncSummaryPill(icon: "checkmark.circle.fill", count: vm.syncSummary.synced, color: .green, label: "동기화")
+                    syncSummaryPill(icon: "exclamationmark.arrow.circlepath", count: vm.syncSummary.modified, color: .blue, label: "수정됨")
+                    syncSummaryPill(icon: "arrow.up.circle", count: vm.syncSummary.notDeployed, color: .orange, label: "미배포")
+                    Spacer()
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(Color(nsColor: .controlBackgroundColor).opacity(0.3))
+            }
+
             Divider()
 
             if vm.blogPosts.isEmpty {
@@ -115,20 +128,41 @@ struct PublishView: View {
 
     @ViewBuilder
     private func publishStatusBadge(for post: BlogPost) -> some View {
-        if let fm = post.frontmatter {
-            if fm.draft {
-                Label("초안", systemImage: "pencil")
-                    .font(.system(size: 9))
-                    .foregroundStyle(.orange)
+        HStack(spacing: 4) {
+            // draft 상태
+            if let fm = post.frontmatter {
+                if fm.draft {
+                    Label("초안", systemImage: "pencil")
+                        .font(.system(size: 9))
+                        .foregroundStyle(.orange)
+                } else {
+                    Label("공개", systemImage: "globe")
+                        .font(.system(size: 9))
+                        .foregroundStyle(.green)
+                }
             } else {
-                Label("공개", systemImage: "globe")
+                Label("frontmatter 없음", systemImage: "exclamationmark.triangle")
                     .font(.system(size: 9))
-                    .foregroundStyle(.green)
+                    .foregroundStyle(.red)
             }
-        } else {
-            Label("frontmatter 없음", systemImage: "exclamationmark.triangle")
+
+            // 동기화 상태
+            Text("·")
                 .font(.system(size: 9))
-                .foregroundStyle(.red)
+                .foregroundStyle(.quaternary)
+
+            Label(post.syncStatus.rawValue, systemImage: post.syncStatus.icon)
+                .font(.system(size: 9))
+                .foregroundStyle(syncColor(post.syncStatus))
+        }
+    }
+
+    private func syncColor(_ status: SyncStatus) -> Color {
+        switch status {
+        case .synced: return .green
+        case .modified: return .blue
+        case .notDeployed: return .orange
+        case .deployOnly: return .red
         }
     }
 
@@ -258,7 +292,7 @@ struct PublishView: View {
             }
             Spacer()
 
-        } else if vm.currentPhase == .done && !vm.result.isEmpty {
+        } else if vm.showDeployResult && !vm.result.isEmpty {
             // 배포 완료
             deploySuccessView
 
@@ -491,6 +525,19 @@ struct PublishView: View {
     struct LineDiff {
         let original: String
         let polished: String
+    }
+
+    private func syncSummaryPill(icon: String, count: Int, color: Color, label: String) -> some View {
+        HStack(spacing: 3) {
+            Image(systemName: icon)
+                .font(.system(size: 9))
+                .foregroundStyle(color)
+            Text("\(count)")
+                .font(.system(size: 10, weight: .medium, design: .monospaced))
+            Text(label)
+                .font(.system(size: 9))
+                .foregroundStyle(.secondary)
+        }
     }
 
     private func computeLineDiffs(original: String, polished: String) -> [LineDiff] {

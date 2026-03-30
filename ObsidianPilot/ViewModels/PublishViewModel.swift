@@ -1,12 +1,39 @@
 import Foundation
 import SwiftUI
 
+/// 노트 ↔ 블로그 동기화 상태
+enum SyncStatus: String {
+    case notDeployed = "미배포"   // blog/에만 있고 astro-blog/content/blog/에 없음
+    case synced = "동기화됨"      // 양쪽 파일 내용이 동일
+    case modified = "수정됨"      // blog/ 쪽이 더 최신 (수정 후 미배포)
+    case deployOnly = "배포만"    // astro-blog에만 있고 blog/에서 삭제됨
+
+    var icon: String {
+        switch self {
+        case .notDeployed: return "arrow.up.circle"
+        case .synced: return "checkmark.circle.fill"
+        case .modified: return "exclamationmark.arrow.circlepath"
+        case .deployOnly: return "trash.circle"
+        }
+    }
+
+    var color: String {
+        switch self {
+        case .notDeployed: return "orange"
+        case .synced: return "green"
+        case .modified: return "blue"
+        case .deployOnly: return "red"
+        }
+    }
+}
+
 /// blog/ 폴더의 마크다운 파일 상태
 struct BlogPost: Identifiable, Hashable {
     let id = UUID()
     let file: VaultFile
     var frontmatter: BlogFrontmatter?
     var isSelected: Bool = false
+    var syncStatus: SyncStatus = .notDeployed
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -50,32 +77,69 @@ class PublishViewModel: ObservableObject {
     @Published var polishResult: PolishResult?
     @Published var postContent: String = ""     // 선택된 글 원문
     @Published var isPolished: Bool = false      // 다듬기 완료 여부
+    @Published var showDeployResult: Bool = false // 배포 결과 표시 유지
     @Published var lastRefreshed: Date? = nil    // 마지막 새로고침 시각
+    @Published var syncSummary: (synced: Int, modified: Int, notDeployed: Int) = (0, 0, 0)
     let progress = StreamProgress()
 
     /// 자동 갱신 타이머 (5분 간격)
     private var autoRefreshTimer: Timer?
     private weak var vaultRef: VaultService?
 
-    /// blog/ 폴더에서 마크다운 파일 목록 로드
+    /// blog/ 폴더에서 마크다운 파일 목록 로드 + 동기화 상태 계산
     func loadBlogPosts(vault: VaultService) {
         vaultRef = vault
         let allFiles = vault.allMarkdownFiles()
         let previousSelection = selectedPost?.file.relativePath
+
+        // astro-blog/content/blog/ 경로 추론
+        let vaultPath = vault.vaultPath
+        let astroBlogDir = (vaultPath as NSString).appendingPathComponent("astro-blog/content/blog")
+
         blogPosts = allFiles
             .filter { $0.category.lowercased() == "blog" }
             .sorted { $0.modifiedDate > $1.modifiedDate }
             .map { file in
                 var post = BlogPost(file: file)
                 post.frontmatter = parseFrontmatter(at: file.fullPath)
+                post.syncStatus = computeSyncStatus(
+                    sourceFile: file.fullPath,
+                    deployDir: astroBlogDir,
+                    fileName: file.name
+                )
                 return post
             }
         lastRefreshed = Date()
+
+        // 동기화 요약 갱신
+        syncSummary = (
+            synced: blogPosts.filter { $0.syncStatus == .synced }.count,
+            modified: blogPosts.filter { $0.syncStatus == .modified }.count,
+            notDeployed: blogPosts.filter { $0.syncStatus == .notDeployed }.count
+        )
 
         // 기존 선택 유지
         if let prevPath = previousSelection {
             selectedPost = blogPosts.first(where: { $0.file.relativePath == prevPath })
         }
+    }
+
+    /// 소스 파일과 배포 디렉토리의 파일을 비교하여 동기화 상태 판정
+    private func computeSyncStatus(sourceFile: String, deployDir: String, fileName: String) -> SyncStatus {
+        let deployedPath = (deployDir as NSString).appendingPathComponent(fileName)
+        let fm = FileManager.default
+
+        guard fm.fileExists(atPath: deployedPath) else {
+            return .notDeployed
+        }
+
+        // 양쪽 파일이 존재 → 내용 비교
+        guard let srcData = fm.contents(atPath: sourceFile),
+              let dstData = fm.contents(atPath: deployedPath) else {
+            return .modified
+        }
+
+        return srcData == dstData ? .synced : .modified
     }
 
     /// 자동 갱신 시작 (5분 간격)
@@ -109,6 +173,7 @@ class PublishViewModel: ObservableObject {
         result = ""
         deployedURL = ""
         currentPhase = .idle
+        showDeployResult = false
         loadContent(for: post)
     }
 
@@ -237,6 +302,7 @@ class PublishViewModel: ObservableObject {
                 if progress.isCancelled { return }
 
                 currentPhase = .done
+                showDeployResult = true
 
                 if let url = extractURL(from: deployResult) {
                     deployedURL = url
