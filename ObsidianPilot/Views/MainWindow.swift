@@ -377,6 +377,13 @@ struct MainWindow: View {
                 tab: .ideas
             )
             toolCardButton(
+                icon: "paperplane",
+                label: "발행",
+                description: "블로그 배포",
+                color: .indigo,
+                tab: .publish
+            )
+            toolCardButton(
                 icon: "clock.arrow.circlepath",
                 label: "기록",
                 description: "작업 이력 보기",
@@ -390,7 +397,7 @@ struct MainWindow: View {
     }
 
     private var shortcutLabel: [AppTab: String] {
-        [.organize: "⌘1", .verify: "⌘2", .ideas: "⌘3", .history: "⌘4"]
+        [.organize: "⌘1", .verify: "⌘2", .ideas: "⌘3", .publish: "⌘4", .history: "⌘5"]
     }
 
     private func toolCardButton(icon: String, label: String, description: String, color: Color, tab: AppTab) -> some View {
@@ -503,6 +510,8 @@ struct MainWindow: View {
                     VerifyView()
                 case .ideas:
                     IdeaView()
+                case .publish:
+                    PublishView()
                 case .history:
                     HistoryView()
                 case .doctor:
@@ -520,6 +529,7 @@ struct MainWindow: View {
         case .organize: return .blue
         case .verify: return .green
         case .ideas: return .orange
+        case .publish: return .indigo
         case .history: return .purple
         case .doctor: return .blue
         case .capture: return Color.accentColor

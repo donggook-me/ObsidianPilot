@@ -56,10 +56,15 @@ struct ObsidianPilotApp: App {
                 }
                 .keyboardShortcut("3", modifiers: .command)
 
+                Button("발행") {
+                    withAnimation(.easeInOut(duration: 0.2)) { appState.activeToolTab = .publish }
+                }
+                .keyboardShortcut("4", modifiers: .command)
+
                 Button("기록") {
                     withAnimation(.easeInOut(duration: 0.2)) { appState.activeToolTab = .history }
                 }
-                .keyboardShortcut("4", modifiers: .command)
+                .keyboardShortcut("5", modifiers: .command)
 
                 Divider()
 
@@ -188,7 +193,7 @@ class ClaudeUsageStats: ObservableObject {
     @Published var sessionCacheTokens: Int = 0
 
     // 요금제 & 모델 정보
-    @Published var planTier: String = "Pro"  // CLI 기본값
+    @Published var planTier: String = "Max"  // Claude Code Max 기본값
     @Published var currentModel: String = ""
     @Published var contextWindow: Int = 0
     @Published var maxOutputTokens: Int = 0
@@ -224,7 +229,8 @@ class ClaudeUsageStats: ObservableObject {
                 + (usage["cache_creation_input_tokens"] as? Int ?? 0)
 
             if let tier = usage["service_tier"] as? String, !tier.isEmpty {
-                planTier = tier == "standard" ? "Pro" : tier.capitalized
+                // service_tier 값을 그대로 표시 (capitalized)
+                planTier = tier.capitalized
             }
         }
 
@@ -320,6 +326,7 @@ class AppState: ObservableObject {
     var organizeVM: OrganizeViewModel
     var verifyVM: VerifyViewModel
     var ideaVM: IdeaViewModel
+    var publishVM: PublishViewModel
     var captureVM: CaptureViewModel
     var historyVM: HistoryViewModel
     var doctorService: DoctorService
@@ -337,6 +344,7 @@ class AppState: ObservableObject {
         self.organizeVM = OrganizeViewModel()
         self.verifyVM = VerifyViewModel()
         self.ideaVM = IdeaViewModel()
+        self.publishVM = PublishViewModel()
         self.captureVM = CaptureViewModel()
         self.historyVM = HistoryViewModel()
         self.doctorService = DoctorService()
@@ -345,6 +353,7 @@ class AppState: ObservableObject {
         forwardChanges(from: organizeVM)
         forwardChanges(from: verifyVM)
         forwardChanges(from: ideaVM)
+        forwardChanges(from: publishVM)
         forwardChanges(from: captureVM)
         forwardChanges(from: historyVM)
         forwardChanges(from: sessionStore)
@@ -415,6 +424,7 @@ class AppState: ObservableObject {
         if organizeVM.isRunning { tabs.append(.organize) }
         if verifyVM.isRunning { tabs.append(.verify) }
         if ideaVM.isRunning { tabs.append(.ideas) }
+        if publishVM.isRunning { tabs.append(.publish) }
         if captureVM.isRunning { tabs.append(.capture) }
         return tabs
     }
@@ -430,6 +440,7 @@ class AppState: ObservableObject {
         if organizeVM.isRunning { set.insert("organize") }
         if verifyVM.isRunning { set.insert("verify") }
         if ideaVM.isRunning { set.insert("ideas") }
+        if publishVM.isRunning { set.insert("publish") }
         if captureVM.isRunning { set.insert("capture") }
         return set
     }
@@ -479,6 +490,7 @@ class AppState: ObservableObject {
         case "organize": return organizeVM.progress
         case "verify": return verifyVM.progress
         case "ideas": return ideaVM.progress
+        case "publish": return publishVM.progress
         case "capture": return captureVM.progress
         default: return nil
         }
@@ -489,6 +501,7 @@ class AppState: ObservableObject {
         case "organize": return (organizeVM.error == nil, organizeVM.progress.elapsedSeconds)
         case "verify": return (verifyVM.error == nil, verifyVM.progress.elapsedSeconds)
         case "ideas": return (ideaVM.error == nil, ideaVM.progress.elapsedSeconds)
+        case "publish": return (publishVM.error == nil, publishVM.progress.elapsedSeconds)
         case "capture": return (captureVM.error == nil, captureVM.progress.elapsedSeconds)
         default: return (true, 0)
         }
@@ -525,6 +538,7 @@ class AppState: ObservableObject {
         case "organize": return "Organize"
         case "verify": return "Verify"
         case "ideas": return "Ideas"
+        case "publish": return "Publish"
         case "capture": return "Capture"
         default: return feature
         }
@@ -535,6 +549,7 @@ enum AppTab: String, CaseIterable, Identifiable {
     case organize = "Organize"
     case verify = "Verify"
     case ideas = "Ideas"
+    case publish = "Publish"
     case capture = "Capture"
     case history = "History"
     case doctor = "Doctor"
@@ -546,6 +561,7 @@ enum AppTab: String, CaseIterable, Identifiable {
         case .organize: return "folder.badge.gearshape"
         case .verify: return "checkmark.shield"
         case .ideas: return "lightbulb"
+        case .publish: return "paperplane"
         case .capture: return "square.and.pencil"
         case .history: return "clock.arrow.circlepath"
         case .doctor: return "stethoscope"
@@ -557,6 +573,7 @@ enum AppTab: String, CaseIterable, Identifiable {
         case .organize: return "정리"
         case .verify: return "검증"
         case .ideas: return "아이디어"
+        case .publish: return "발행"
         case .capture: return "캡처"
         case .history: return "기록"
         case .doctor: return "Doctor"

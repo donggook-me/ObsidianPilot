@@ -418,6 +418,7 @@ struct RunningStatusRow: View {
         case .organize: return appState.organizeVM.progress
         case .verify: return appState.verifyVM.progress
         case .ideas: return appState.ideaVM.progress
+        case .publish: return appState.publishVM.progress
         case .capture: return appState.captureVM.progress
         case .history, .doctor: return nil
         }
@@ -428,6 +429,7 @@ struct RunningStatusRow: View {
         case .organize: appState.organizeVM.cancel()
         case .verify: appState.verifyVM.cancel()
         case .ideas: appState.ideaVM.cancel()
+        case .publish: appState.publishVM.cancel()
         case .capture: appState.captureVM.cancel()
         case .history, .doctor: break
         }

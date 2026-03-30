@@ -692,6 +692,61 @@ final class ClaudeService: Sendable {
         return try await run(prompt: prompt)
     }
 
+    // MARK: - Publish (블로그 발행)
+
+    /// 맞춤법 교정 + frontmatter 검증
+    func publishPolish(filePath: String, progress: StreamProgress? = nil) async throws -> String {
+        let prompt = """
+        다음 파일의 맞춤법과 띄어쓰기만 교정해: \(filePath)
+
+        규칙:
+        1. 맞춤법과 띄어쓰기 오류만 교정. 문체, 어휘, 문장 구조는 절대 변경하지 마.
+        2. frontmatter가 없으면 추가:
+           ---
+           title: "(파일명에서 추론)"
+           date: "\(ISO8601DateFormatter.string(from: Date(), timeZone: .current, formatOptions: [.withFullDate]))"
+           draft: false
+           ---
+        3. frontmatter가 있으면:
+           - title이 없으면 추가
+           - date가 없으면 오늘 날짜 추가
+           - draft: true → draft: false로 변경 (발행이니까)
+        4. 파일을 직접 수정(Edit)해. 결과를 출력하지 말고 파일을 수정해.
+        5. 어떤 교정을 했는지 간단히 마크다운으로 보고해.
+
+        중요: 비대화형 환경입니다. 추가 질문 없이 파일을 읽고 수정하고 결과를 보고하세요.
+        """
+        if let progress = progress {
+            return try await runStreaming(prompt: prompt, progress: progress)
+        }
+        return try await run(prompt: prompt)
+    }
+
+    /// 파일 복사 → Astro 빌드 → Vercel 배포
+    func publishDeploy(filePath: String, progress: StreamProgress? = nil) async throws -> String {
+        let prompt = """
+        블로그 글을 Astro 사이트에 배포해.
+
+        파이프라인:
+        1. blog/ 폴더에서 draft: false인 모든 .md 파일을 astro-blog/content/blog/로 복사
+           - astro-blog/content/blog/ 디렉토리가 없으면 생성
+           - 기존 파일 덮어쓰기
+        2. astro-blog 디렉토리로 이동해서:
+           - npm install (필요시)
+           - npm run build
+        3. 빌드 성공 후:
+           - vercel deploy --prebuilt --prod
+        4. 배포 URL을 보고해.
+
+        중요: 비대화형 환경입니다. 각 단계를 자율적으로 수행하고 결과를 마크다운으로 보고하세요.
+        오류 발생 시 오류 내용을 상세히 보고하세요.
+        """
+        if let progress = progress {
+            return try await runStreaming(prompt: prompt, progress: progress)
+        }
+        return try await run(prompt: prompt)
+    }
+
     func categorizeAndSave(text: String, progress: StreamProgress? = nil) async throws -> String {
         let prompt = """
         다음 텍스트를 분석해서 이 Obsidian vault에 적절히 저장해줘.
